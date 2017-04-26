@@ -36,7 +36,7 @@ class Bug(BaseClass):
 		BaseClass.__init__(self,x, y, image_string )
 		
 		self.is_hit = False
-		self.character_health = 30
+		self.character_health = 300
 		
 		self.begging_health = self.character_health
 		
