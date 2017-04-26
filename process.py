@@ -5,6 +5,11 @@ def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH):
 	
 	for event in pygame.event.get():
 		if(event.type ==  pygame.QUIT or Classes.Bug.dead):
+			f = file.open("result.txt", 'w')
+
+				
+
+			f.close
 			time.sleep(1.3)
 			pygame.quit()
 			sys.exit()
