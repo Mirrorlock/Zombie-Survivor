@@ -6,7 +6,9 @@ def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH):
 	for event in pygame.event.get():
 		if(event.type ==  pygame.QUIT or Classes.Bug.dead):
 			f = open("result.txt", 'a+')
+
 			f.write("\nPlayer <NAME> survived: %.2f seconds\n" %(float(totalFrames/FPS)))		
+			
 			f.close()
 			time.sleep(1.3)
 			pygame.quit()
@@ -54,7 +56,7 @@ def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH):
 		bug.jumping = True
 		
 	else:
-		
+
 		bug.jumping = False
 	
 	if keys[pygame.K_s]:
