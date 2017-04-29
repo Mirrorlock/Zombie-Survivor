@@ -20,7 +20,7 @@ background = pygame.image.load("images/Stage.jpg")
 
 totalFrames = 0
 
-bug = Bug(SCREENWIDTH/2, SCREENHEIGHT - 84, "images/characterco (2).png", 30) 
+bug = Bug(SCREENWIDTH/2, SCREENHEIGHT - 84, "images/characterco (2).png", 300) 
 
 while True:
 	process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH)
