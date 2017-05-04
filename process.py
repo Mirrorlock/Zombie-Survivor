@@ -1,13 +1,15 @@
 import pygame, sys, Classes, random, time
 
+all_months = ["January", "February", "March", "April", "June", "July", "August", "September", "Octomber", "November", "December"]
+
 def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH):
 	
 	
 	for event in pygame.event.get():
 		if(event.type ==  pygame.QUIT or Classes.Bug.dead):
 			f = open("Result.txt", 'a+')
-
-			f.write("\nPlayer <NAME> survived: %.2f seconds\n" %(float(totalFrames/FPS)))		
+			t = time.localtime()
+			f.write("\n-> On {0} {1}, {2} at {3}:%.2d: %s survived: %.2f seconds\n".format(all_months[t[1]], t[2], t[0], t[3]) %(t[4], bug.username, float(totalFrames/FPS)))		
 			
 			f.close()
 			time.sleep(1.3)
@@ -164,7 +166,7 @@ def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS):
 					else:
 						character.character_health = 0
 						#GAME OVER#
-						game_over = Classes.Write( 'GAME OVER', 50, (188, 16, 16),'Wide Latin')							
+						game_over = Classes.Write( 'GAME OVER', 50, (66, 134, 244),'Wide Latin')							
 						game_over.on_screen(x = SCREENWIDTH/2 - game_over.text_size[0]/2,
 											y = SCREENHEIGHT/2 - game_over.text_size[1]/2 - 20)
 						

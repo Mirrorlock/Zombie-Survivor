@@ -32,12 +32,13 @@ class Bug(BaseClass):
 	going_right = True
 	dead = False
 	List =  pygame.sprite.Group()
-	def __init__(self,x, y, image_string, character_health ):
+	def __init__(self,x, y, image_string, character_health, username):
 		BaseClass.__init__(self,x, y, image_string )
 		
+		self.username = username
+
 		self.is_hit = False
 		self.character_health = character_health
-		
 		self.begging_health = self.character_health
 		
 			

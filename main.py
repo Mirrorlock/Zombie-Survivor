@@ -2,9 +2,11 @@ import pygame, sys
 from Classes import *
 from process import *
 
+username = input("Enter your username: ")
 
 pygame.init()
 pygame.font.init()
+pygame.mixer.init()
 
 SCREENWIDTH, SCREENHEIGHT = 640, 360
 
@@ -19,8 +21,9 @@ FPS = 30
 background = pygame.image.load("images/Stage.jpg")
 
 totalFrames = 0
-
-bug = Bug(SCREENWIDTH/2, SCREENHEIGHT - 84, "images/characterco (2).png", 300) 
+pygame.mixer.music.load("Music/music3.mp3")
+pygame.mixer.music.play()
+bug = Bug(SCREENWIDTH/2, SCREENHEIGHT - 84, "images/characterco (2).png", 3000, username) 
 
 while True:
 	process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH)
