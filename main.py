@@ -8,6 +8,7 @@ pygame.init()
 pygame.font.init()
 pygame.mixer.init()
 
+music = pygame.mixer
 SCREENWIDTH, SCREENHEIGHT = 640, 360
 
 screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT), pygame.FULLSCREEN,32)
@@ -21,12 +22,12 @@ FPS = 30
 background = pygame.image.load("images/Stage.jpg")
 
 totalFrames = 0
-pygame.mixer.music.load("Music/music3.mp3")
-pygame.mixer.music.play()
-bug = Bug(SCREENWIDTH/2, SCREENHEIGHT - 84, "images/characterco (2).png", 3000, username) 
+music.music.load("Music/music3.mp3")
+music.music.play()
+bug = Bug(SCREENWIDTH/2, SCREENHEIGHT - 84, "images/characterco (2).png", 30, username) 
 
 while True:
-	process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH)
+	process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH, music)
 
 	
 	#LOGIC

@@ -2,21 +2,35 @@ import pygame, sys, Classes, random, time
 
 all_months = ["January", "February", "March", "April", "June", "July", "August", "September", "Octomber", "November", "December"]
 
-def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH):
+def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH, music):
 	
-	
-	for event in pygame.event.get():
-		if(event.type ==  pygame.QUIT or Classes.Bug.dead):
+	if(Classes.Bug.dead):
+
+			music.music.load("Music/game_over.mp3")
+			music.music.play()
+			
 			f = open("Result.txt", 'a+')
 			t = time.localtime()
-			f.write("\n-> On {0} {1}, {2} at {3}:%.2d: %s survived: %.2f seconds\n".format(all_months[t[1]], t[2], t[0], t[3]) %(t[4], bug.username, float(totalFrames/FPS)))		
-			
+			f.write("\n-> On {0} {1}, {2} at {3}:%.2d: %s survived: %.2f seconds\n".format(all_months[t[1]], t[2], t[0], t[3]) %(t[4], bug.username, float(totalFrames/FPS)))
 			f.close()
-			time.sleep(1.3)
+	
+
+			# while(True):
+			# 	if(press_any_button()):
+					
+			# 		break
+			if(press_spc_button()):
+				pygame.quit()
+				sys.exit()
+
+	for event in pygame.event.get():
+		if(event.type == pygame.QUIT ):
+			
 			pygame.quit()
 			sys.exit()
 		
 		
+
 		if event.type == pygame.KEYDOWN:
 			if(event.key == pygame.K_e):
 				Classes.BugProjectile.fire = not Classes.BugProjectile.fire
@@ -38,60 +52,54 @@ def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH):
 
 			
 			
-				
-
-	keys = pygame.key.get_pressed()
-	
-	if keys[pygame.K_d]:
-		Classes.Bug.going_right = True
-		bug.image = pygame.image.load("images/characterco (2).png")
-		bug.velx = 5
-	elif keys[pygame.K_a]:
-		Classes.Bug.going_right = False
-		bug.image = pygame.image.load("images/characterco_flipped.png")
-		bug.velx = -5
-	else:
-		bug.velx = 0
-
+	if(not Classes.Bug.dead):		
 		
-	if keys[pygame.K_w]:
-		bug.jumping = True
+		keys = pygame.key.get_pressed()
 		
-	else:
-
-		bug.jumping = False
-	
-	if keys[pygame.K_s]:
-		bug.jumping = False
-		bug.go_down = True
-	else:
-		bug.go_down = False
-		
-	if keys[pygame.K_SPACE]:
-
-		def direction():
-			if Classes.Bug.going_right:
-				p.velx = 8
-			else:
-				p.image = pygame.transform.flip(p.image, True, False)
-				p.velx = -8
-		
-		if(Classes.BugProjectile.fire):		
-			p = Classes.BugProjectile(bug.rect.x, bug.rect.y + 40, True, "images/Firebolt.png", FPS )
-			direction()
+		if keys[pygame.K_d]:
+			Classes.Bug.going_right = True
+			bug.image = pygame.image.load("images/characterco (2).png")
+			bug.velx = 5
+		elif keys[pygame.K_a]:
+			Classes.Bug.going_right = False
+			bug.image = pygame.image.load("images/characterco_flipped.png")
+			bug.velx = -5
 		else:
-			p = Classes.BugProjectile(bug.rect.x, bug.rect.y + 40, False, "images/Frostball.png", FPS )
-			direction()
+			bug.velx = 0
 
+			
+		if keys[pygame.K_w]:
+			bug.jumping = True
+			
+		else:
+
+			bug.jumping = False
 		
-		
-		
+		if keys[pygame.K_s]:
+			bug.jumping = False
+			bug.go_down = True
+		else:
+			bug.go_down = False
+			
+		if keys[pygame.K_SPACE]:
+
+			def direction():
+				if Classes.Bug.going_right:
+					p.velx = 8
+				else:
+					p.image = pygame.transform.flip(p.image, True, False)
+					p.velx = -8
+			
+			if(Classes.BugProjectile.fire):		
+				p = Classes.BugProjectile(bug.rect.x, bug.rect.y + 40, True, "images/Firebolt.png", FPS )
+				direction()
+			else:
+				p = Classes.BugProjectile(bug.rect.x, bug.rect.y + 40, False, "images/Frostball.png", FPS )
+				direction()
+
+		spawn(FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH)
+		collisions(bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS)
 	
-	spawn(FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH)
-	collisions(bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS)
-	
-
-
 
 	
 	
@@ -172,12 +180,22 @@ def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS):
 						
 
 						current_time = float(totalFrames/FPS)
+
 						your_time = Classes.Write(text = "TIME SURVIVED: %.2f seconds" %(current_time),  
-										 	   size = 15, color =  game_over.color, 
+										 	   size = 13, color =  game_over.color, 
 											   font_type = game_over.font_type)
 						your_time.on_screen(x = SCREENWIDTH/2 - your_time.text_size[0]/2, 
 										 y = game_over.y + game_over.text_size[1] + 15)
+
+						p_continue = Classes.Write(text = "Press <Space> to quit",  
+										 	   size = 10, color =  game_over.color, 
+											   font_type = game_over.font_type)	
+						p_continue.on_screen(x = SCREENWIDTH/2 - p_continue.text_size[0]/2, 
+										 y = your_time.y + your_time.text_size[1] + 15)
+
 						Classes.Bug.dead = True
+						bug.velx, bug.vely = 0, 0
+						
 						#GAME OVER#
 
 					if(character.is_hit):
@@ -192,7 +210,15 @@ def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS):
 			else:	
 				enemy.hitting = 0
 
-		
+def press_spc_button():
+	keys_for_func = pygame.key.get_pressed()
+	keypressed = False
+
+	if(keys_for_func[pygame.K_SPACE]):
+		keypressed = True
+	
+	return keypressed
+
 
 
 
