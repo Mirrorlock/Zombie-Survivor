@@ -1,27 +1,30 @@
 import pygame, sys, Classes, random, time
 
 all_months = ["January", "February", "March", "April", "June", "July", "August", "September", "Octomber", "November", "December"]
+current_time = None
+killed = None
+written = 0
+health_obj = None
+last_ticks = 0
+
+
+
+
+#######################
 
 def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH, music):
-	
-	if(Classes.Bug.dead):
+	global current_time, written, killed
+	if(current_time is not None and not Classes.Bug.dead):
+		current_time.off_screen()
 
-			music.music.load("Music/game_over.mp3")
-			music.music.play()
-			
-			f = open("Result.txt", 'a+')
-			t = time.localtime()
-			f.write("\n-> On {0} {1}, {2} at {3}:%.2d: %s survived: %.2f seconds\n".format(all_months[t[1]], t[2], t[0], t[3]) %(t[4], bug.username, float(totalFrames/FPS)))
-			f.close()
+	if(killed is not None and not Classes.Bug.dead):
+		killed.off_screen()
 	
+	if(Classes.BaseClass.music_need and Classes.Bug.dead):
+		music.music.load("Music/game_over.mp3")
+		music.music.play()
+		Classes.BaseClass.music_need = 0
 
-			# while(True):
-			# 	if(press_any_button()):
-					
-			# 		break
-			if(press_spc_button()):
-				pygame.quit()
-				sys.exit()
 
 	for event in pygame.event.get():
 		if(event.type == pygame.QUIT ):
@@ -40,17 +43,7 @@ def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH, music):
 				sys.exit()
 			
 		
-				
-				
-				
-				# your_time = Classes.Write("Your time: %d" %(current_time), 50, (188, 16, 16),'Wide Latin')
-				# your_time.on_screen(x = SCREENWIDTH/2 - your_time.text_size[0]/2,
-				# 					y = SCREENHEIGHT/2 - your_time.text_size[1]/2 - 20)
-				
-			
 
-
-			
 			
 	if(not Classes.Bug.dead):		
 		
@@ -96,12 +89,46 @@ def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH, music):
 			else:
 				p = Classes.BugProjectile(bug.rect.x, bug.rect.y + 40, False, "images/Frostball.png", FPS )
 				direction()
+		
+		
+		texts = show_texts(SCREENWIDTH)
+		current_time = texts[0]
+		killed = texts[1]
+		
 
+		health_packs(SCREENHEIGHT, SCREENWIDTH)
 		spawn(FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH)
-		collisions(bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS)
-	
+		collisions(bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS, current_time)
+		
 
+
+
+	else:
+		
+		
+		if(not written):
+			f = open("Result.txt", 'a+')
+			t = time.localtime()
+			f.write("\n-> On {0} {1}, {2} at {3}:%.2d: %s survived: %s \n".format(all_months[t[1]], t[2], t[0], t[3]) %(t[4], bug.username, current_time.text))
+			f.close()
+			written = 1
+
+
+		# while(True):
+		# 	if(press_any_button()):
+				
+		# 		break
+		if(press_spc_button()):
+			pygame.quit()
+			sys.exit()
 	
+	
+		
+
+
+
+###################################
+
 	
 def spawn(FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH):	
 	
@@ -120,7 +147,7 @@ def spawn(FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH):
 			
 		enemy = Classes.Enemy(x, 130,  "images/characterco enemy.png", SCREENHEIGHT, totalFrames, FPS)
 
-def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS):
+def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS, current_time):
 
 
 	for enemy in Classes.Enemy.List:
@@ -162,53 +189,55 @@ def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS):
 
 
 
-		for character in Classes.Bug.List:
+		
 
-			if(pygame.sprite.spritecollide(enemy, Classes.Bug.List, False)): #bug is hit
-				if not enemy.hitting:
-					if(character.character_health > enemy.hitpoints):
-						
-						character.character_health -= enemy.hitpoints
-						
-						
-					else:
-						character.character_health = 0
-						#GAME OVER#
-						game_over = Classes.Write( 'GAME OVER', 50, (66, 134, 244),'Wide Latin')							
-						game_over.on_screen(x = SCREENWIDTH/2 - game_over.text_size[0]/2,
-											y = SCREENHEIGHT/2 - game_over.text_size[1]/2 - 20)
-						
-
-						current_time = float(totalFrames/FPS)
-
-						your_time = Classes.Write(text = "TIME SURVIVED: %.2f seconds" %(current_time),  
-										 	   size = 13, color =  game_over.color, 
-											   font_type = game_over.font_type)
-						your_time.on_screen(x = SCREENWIDTH/2 - your_time.text_size[0]/2, 
-										 y = game_over.y + game_over.text_size[1] + 15)
-
-						p_continue = Classes.Write(text = "Press <Space> to quit",  
-										 	   size = 10, color =  game_over.color, 
-											   font_type = game_over.font_type)	
-						p_continue.on_screen(x = SCREENWIDTH/2 - p_continue.text_size[0]/2, 
-										 y = your_time.y + your_time.text_size[1] + 15)
-
-						Classes.Bug.dead = True
-						bug.velx, bug.vely = 0, 0
-						
-						#GAME OVER#
-
-					if(character.is_hit):
-							character.del_health()
-
-					bug.show_health(200, 40, 10, 10)
-					character.is_hit = True
+		if(pygame.sprite.spritecollide(enemy, Classes.Bug.List, False)): #bug is hit
+			if not enemy.hitting:
+				if(bug.character_health > enemy.hitpoints):
+					
+					bug.character_health -= enemy.hitpoints
+					
+					
+				else:
+					bug.character_health = 0
+					#GAME OVER#
+					game_over = Classes.Write( 'GAME OVER', size = 90, color = (153, 15, 15),font_type = 'Informal Roman', bold = True)							
+					game_over.on_screen(x = SCREENWIDTH/2 - game_over.text_size[0]/2,
+										y = SCREENHEIGHT/2 - game_over.text_size[1]/2 - 60)
 					
 
-						
-					enemy.hitting = 1
-			else:	
-				enemy.hitting = 0
+					
+
+					your_time = Classes.Write(text = "TIME SURVIVED: %s" %(current_time.text),  
+											size = int(game_over.size/2), color =  game_over.color, 
+											font_type = game_over.font_type)
+					your_time.on_screen(x = SCREENWIDTH/2 - your_time.text_size[0]/2, 
+										y = game_over.y + game_over.text_size[1] + 15)
+
+					p_continue = Classes.Write(text = "Press <Space> to quit",  
+											size = int(your_time.size/2), color =  game_over.color, 
+											font_type = game_over.font_type)	
+					p_continue.on_screen(x = SCREENWIDTH/2 - p_continue.text_size[0]/2, 
+										y = your_time.y + your_time.text_size[1] + 15)
+
+					Classes.Bug.dead = True
+					bug.velx, bug.vely = 0, 0
+					
+					#GAME OVER#
+
+				if(bug.is_hit):
+						bug.del_health()
+
+				bug.show_health(200, 40, 10, 10)
+				bug.is_hit = True
+				
+
+					
+				enemy.hitting = 1
+		else:	
+			enemy.hitting = 0
+
+
 
 def press_spc_button():
 	keys_for_func = pygame.key.get_pressed()
@@ -219,15 +248,31 @@ def press_spc_button():
 	
 	return keypressed
 
+def show_texts(SCREENWIDTH):
 
-
+	t = pygame.time.get_ticks()
 
 	
+	text = "%.2d:%.2d:%.2d" %((t/(1000*60))%60, (t/1000)%60, (t%1000)/10)
+
+	show_time = Classes.Write(text = text, size = 45, color =  (255, 255, 255), font_type = "Informal Roman")
+	show_time.on_screen(x = SCREENWIDTH/2 - show_time.text_size[0]/2, y = -10)
+	
+	killed = str(Classes.Bug.killed)
+	show_killed = Classes.Write(text = "%s kills" %(killed), size = 30, color = show_time.color, font_type = show_time.font_type)
+	show_killed.on_screen(x = SCREENWIDTH - show_killed.text_size[0], y = -10)
+	
+	return (show_time, show_killed)
 
 
+def health_packs(SCREENHEIGHT, SCREENWIDTH):
+	global last_ticks
+	ticks = pygame.time.get_ticks()	
 
-
-
+	if(ticks - last_ticks >= 2000):
+		health_pack = Classes.Objects("images/Packs/health_pack.png", SCREENHEIGHT, SCREENWIDTH)
+		last_ticks = pygame.time.get_ticks() 
+	
 
 
 

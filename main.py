@@ -24,7 +24,11 @@ background = pygame.image.load("images/Stage.jpg")
 totalFrames = 0
 music.music.load("Music/music3.mp3")
 music.music.play()
-bug = Bug(SCREENWIDTH/2, SCREENHEIGHT - 84, "images/characterco (2).png", 30, username) 
+music.music.queue("Music/music2.mp3")
+music.music.queue("Music/music5.mp3")
+bug = Bug(SCREENWIDTH/2, SCREENHEIGHT - 84, "images/characterco (2).png", 300, username) 
+
+
 
 while True:
 	process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH, music)
@@ -45,8 +49,11 @@ while True:
 	BaseClass.allsprites.draw(screen)
 	BugProjectile.List.draw(screen)
 
+	for obj in Objects.List:
+		obj.move()
+
 	for text_holder in Write.normal_list:
-		screen.blit(text_holder.text, (text_holder.x,text_holder.y))
+		screen.blit(text_holder.screen_text, (text_holder.x,text_holder.y))
 
 	pygame.display.flip()
 	#DRAW

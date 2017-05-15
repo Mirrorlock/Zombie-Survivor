@@ -5,7 +5,7 @@ from random import *
 class BaseClass(pygame.sprite.Sprite):
 	
 	allsprites = pygame.sprite.Group()
-	
+	music_need = 1
 	
 	
 	def __init__(self, x, y, image_string):
@@ -98,7 +98,7 @@ class Bug(BaseClass):
 			self.text_health.off_screen()	
 
 
-		self.text_health = Write("%d / %d" %(self.character_health, self.begging_health), 12, (255, 255, 255), 'Times New Roman')
+		self.text_health = Write("%d / %d" %(self.character_health, self.begging_health), 12, (255, 255, 255), 'Informal Roman')
 		self.text_health.on_screen(x = width/2 - self.text_health.text_size[0]/2,
 							  y = height/2 - self.text_health.text_size[1]/2)
 		
@@ -244,8 +244,9 @@ class Write:
 	def __init__(self, text, size, color , font_type, bold = False):
 
 		self.text = str(text)
-		
-		
+		self.size = size
+
+
 		self.color = color
 		self.font_type = font_type
 
@@ -255,8 +256,8 @@ class Write:
 
 		self.text_size = self.font.size(self.text)
 
-		self.text = self.font.render(self.text, False, color)
-		 
+		self.screen_text = self.font.render(self.text, False, color)
+	 
 
 	def on_screen(self, x, y):
 		self.x = x
@@ -282,8 +283,57 @@ class Surfaces:
 		
 		
 		Surfaces.normal_list.append(self)
+
+
 	
 	def delete(self):
 		Surfaces.normal_list.remove(self)
 		del self
+
+class Objects(BaseClass):
+
+	List = pygame.sprite.Group()
+	def __init__(self, image_string, SCREENHEIGHT, SCREENWIDTH):
+		self.p = randint(1, 5)
+		self.on_place = False
+		if(self.p == 1):
+			self.beggings = (randint(0, SCREENWIDTH-40), 0)
+			self.velx, self.vely = 0, randint(2, 5) 
+			self.endings = (self.beggings[0], randint(0, SCREENHEIGHT - 40))
+		elif(self.p == 2):
+			self.beggings = (randint(0, SCREENWIDTH-40),  SCREENHEIGHT-40)
+			self.velx, self.vely = 0, randint(-5, -2)
+			self.endings = (self.beggings[0], randint(0, SCREENHEIGHT - 40))
+		elif(self.p == 3):
+			self.beggings = (0, randint(0, SCREENHEIGHT-40))
+			self.velx, self.vely = randint(2, 5), 0
+			self.endings = ( randint(0, SCREENWIDTH - 40), self.beggings[1])
+		else:
+			self.beggings = (SCREENWIDTH - 40, randint(0, SCREENHEIGHT-40))
+			self.velx, self.vely = randint(-5, -2), 0  
+			self.endings = ( randint(0, SCREENWIDTH - 40), self.beggings[1])
 		
+		BaseClass.__init__(self, self.beggings[0], self.beggings[1], image_string)
+		
+		
+		
+		Objects.List.add(self)
+		
+		 
+	def move(self):
+		
+		if(not self.on_place):	
+					
+			if((self.p == 1 and self.rect.y >= self.endings[1]) or 
+			   (self.p == 3 and self.rect.x >= self.endings[0]) or
+			   (self.p == 2 and self.rect.y <= self.endings[1]) or
+			   (self.p == 4 and self.rect.x <= self.endings[0])):
+				self.on_place = True
+			else:
+				
+				self.rect.x +=  self.velx 
+				self.rect.y +=  self.vely
+
+
+	
+				
