@@ -214,7 +214,7 @@ def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS, current_time):
 					your_time.on_screen(x = SCREENWIDTH/2 - your_time.text_size[0]/2, 
 										y = game_over.y + game_over.text_size[1] + 15)
 
-					p_continue = Classes.Write(text = "Press <Space> to quit",  
+					p_continue = Classes.Write(text = "Press <ESCAPE> to quit",  
 											size = int(your_time.size/2), color =  game_over.color, 
 											font_type = game_over.font_type)	
 					p_continue.on_screen(x = SCREENWIDTH/2 - p_continue.text_size[0]/2, 
@@ -228,7 +228,7 @@ def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS, current_time):
 				if(bug.is_hit):
 						bug.del_health()
 
-				bug.show_health(200, 40, 10, 10)
+				bug.show_health()
 				bug.is_hit = True
 				
 
@@ -237,13 +237,26 @@ def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS, current_time):
 		else:	
 			enemy.hitting = 0
 
+	for obj in Classes.Objects.List:
+		if(pygame.sprite.spritecollide(obj, Classes.Bug.List, False) ):
+			
+				if(bug.character_health + obj.healing <= bug.begging_health):	
+					bug.character_health += obj.healing
+					
+				else:
+					bug.character_health = bug.begging_health
+				
+				if(bug.is_hit):
+					bug.del_health()	
+					bug.show_health()
+				obj.destroy(Classes.Objects)
 
 
 def press_spc_button():
 	keys_for_func = pygame.key.get_pressed()
 	keypressed = False
 
-	if(keys_for_func[pygame.K_SPACE]):
+	if(keys_for_func[pygame.K_ESCAPE]):
 		keypressed = True
 	
 	return keypressed
@@ -269,7 +282,7 @@ def health_packs(SCREENHEIGHT, SCREENWIDTH):
 	global last_ticks
 	ticks = pygame.time.get_ticks()	
 
-	if(ticks - last_ticks >= 2000):
+	if(ticks - last_ticks >= 15000):
 		health_pack = Classes.Objects("images/Packs/health_pack.png", SCREENHEIGHT, SCREENWIDTH)
 		last_ticks = pygame.time.get_ticks() 
 	

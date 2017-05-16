@@ -83,8 +83,9 @@ class Bug(BaseClass):
 				self.rect.y += self.vely		
 	
 	
-	def show_health(self, width, height, inner_x, inner_y):
+	def show_health(self):
 
+		width, height, inner_x, inner_y = 200, 40, 10, 10
 
 		inner_width = width - 2*inner_x
 		inner_height = height - 2*inner_y
@@ -292,10 +293,12 @@ class Surfaces:
 
 class Objects(BaseClass):
 
+	to_add = 20
 	List = pygame.sprite.Group()
 	def __init__(self, image_string, SCREENHEIGHT, SCREENWIDTH):
 		self.p = randint(1, 5)
 		self.on_place = False
+		self.touching = False
 		if(self.p == 1):
 			self.beggings = (randint(0, SCREENWIDTH-40), 0)
 			self.velx, self.vely = 0, randint(2, 5) 
@@ -316,7 +319,8 @@ class Objects(BaseClass):
 		BaseClass.__init__(self, self.beggings[0], self.beggings[1], image_string)
 		
 		
-		
+		self.healing = randint(Objects.to_add, Objects.to_add + 50)
+
 		Objects.List.add(self)
 		
 		 
@@ -329,6 +333,7 @@ class Objects(BaseClass):
 			   (self.p == 2 and self.rect.y <= self.endings[1]) or
 			   (self.p == 4 and self.rect.x <= self.endings[0])):
 				self.on_place = True
+				Objects.to_add += 5
 			else:
 				
 				self.rect.x +=  self.velx 

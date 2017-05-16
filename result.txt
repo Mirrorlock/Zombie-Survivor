@@ -70,3 +70,11 @@ Results:
 -> On July 15, 2017 at 23:41: kog survived: 01:06:03 
 
 -> On July 15, 2017 at 23:46: locking survived: 00:47:55 
+
+-> On July 16, 2017 at 10:33: j survived: 00:27:58 
+
+-> On July 16, 2017 at 10:43: kog survived: 02:22:66 
+
+-> On July 16, 2017 at 10:45: koj survived: 00:19:76 
+
+-> On July 16, 2017 at 10:48: junction  survived: 02:15:02 
