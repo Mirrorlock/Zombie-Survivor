@@ -1,80 +1,8 @@
 Results:
 
 
--> On July 13, 2017 at 21:49: locking123 survived: 01:40:30 
+-> On June 13, 2017 at 11:08: kogato aaz umrq survived: 00:12:62 and killed: 0  
 
--> On July 13, 2017 at 22:36: locking survived: 01:40:95 
+-> On June 13, 2017 at 11:08: junction survived: 00:27:68 and killed: 2  
 
--> On July 13, 2017 at 22:37: lockig survived: 00:32:65 
-
--> On July 13, 2017 at 22:39: pinqta survived: 00:17:03 
-
--> On July 13, 2017 at 22:48: imalo edno wreme na zapad survived: 00:18:30 
-
--> On July 13, 2017 at 22:49: 'na survived: 00:16:87 
-
--> On July 13, 2017 at 22:50: k survived: 00:13:55 
-
--> On July 13, 2017 at 22:53: locking survived: 00:03:69 
-
--> On July 13, 2017 at 22:55: popping survived: 00:03:78 
-
--> On July 13, 2017 at 23:28: lok survived: 00:23:13 
-
--> On July 15, 2017 at 22:16: junction survived: 00:09:26 
-
--> On July 15, 2017 at 22:17: loi survived: 00:17:75 
-
--> On July 15, 2017 at 22:18: koga survived: 00:06:07 
-
--> On July 15, 2017 at 22:20: ka survived: 00:05:04 
-
--> On July 15, 2017 at 22:21: koga survived: 00:10:52 
-
--> On July 15, 2017 at 22:26: locking survived: 00:34:12 
-
--> On July 15, 2017 at 22:29: koga survived: 00:28:85 
-
--> On July 15, 2017 at 22:33: why is it so slowa survived: 00:06:06 
-
--> On July 15, 2017 at 22:33: logkin survived: 00:14:88 
-
--> On July 15, 2017 at 22:35: lockign survived: 00:37:69 
-
--> On July 15, 2017 at 22:37: ga survived: 01:09:35 
-
--> On July 15, 2017 at 22:43: lockign survived: 00:04:12 
-
--> On July 15, 2017 at 22:44: locking survived: 00:03:29 
-
--> On July 15, 2017 at 23:03: endings trier survived: 00:54:15 
-
--> On July 15, 2017 at 23:05: game survived: 00:42:74 
-
--> On July 15, 2017 at 23:10: that is the answer survived: 01:18:66 
-
--> On July 15, 2017 at 23:14: ko survived: 00:58:12 
-
--> On July 15, 2017 at 23:16: ko survived: 00:45:41 
-
--> On July 15, 2017 at 23:18: creative name survived: 00:45:16 
-
--> On July 15, 2017 at 23:22: kogato marto razbra idiotskata si greshka survived: 00:59:59 
-
--> On July 15, 2017 at 23:26: sega weche trqbwa da raboti survived: 00:43:05 
-
--> On July 15, 2017 at 23:32: ko survived: 00:53:51 
-
--> On July 15, 2017 at 23:39: juntioner survived: 00:56:82 
-
--> On July 15, 2017 at 23:41: kog survived: 01:06:03 
-
--> On July 15, 2017 at 23:46: locking survived: 00:47:55 
-
--> On July 16, 2017 at 10:33: j survived: 00:27:58 
-
--> On July 16, 2017 at 10:43: kog survived: 02:22:66 
-
--> On July 16, 2017 at 10:45: koj survived: 00:19:76 
-
--> On July 16, 2017 at 10:48: junction  survived: 02:15:02 
+-> On June 13, 2017 at 17:27: hoover survived: 02:03:91 and killed: 29  

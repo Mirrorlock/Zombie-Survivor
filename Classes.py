@@ -119,7 +119,9 @@ class Enemy(BaseClass):
 			BaseClass.__init__(self, x, y, image_string)
 			Enemy.List.add(self)
 			
-			self.hitpoints = 30
+
+			
+			self.hitpoints = randint(10, 30)
 			
 			
 			self.pic_num = 1
@@ -137,8 +139,8 @@ class Enemy(BaseClass):
 			self.rect.y = randint(0, SCREENHEIGHT-self.rect.height)
 			
 			
-			seconds = int(abs(totalFrames/FPS))
-			max_speed = int(abs(seconds/10))
+			seconds = int(totalFrames/FPS)
+			max_speed = int(seconds/10)
 
 			self.velx = randint(max_speed+1, max_speed+2)
 

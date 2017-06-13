@@ -1,6 +1,6 @@
 import pygame, sys, Classes, random, time
 
-all_months = ["January", "February", "March", "April", "June", "July", "August", "September", "Octomber", "November", "December"]
+all_months = ["January", "February", "March", "April", "May",  "June", "July", "August", "September", "Octomber", "November", "December"]
 current_time = None
 killed = None
 written = 0
@@ -109,7 +109,7 @@ def process(bug, FPS, totalFrames, SCREENHEIGHT, SCREENWIDTH, music):
 		if(not written):
 			f = open("Result.txt", 'a+')
 			t = time.localtime()
-			f.write("\n-> On {0} {1}, {2} at {3}:%.2d: %s survived: %s \n".format(all_months[t[1]], t[2], t[0], t[3]) %(t[4], bug.username, current_time.text))
+			f.write("\n-> On {0} {1}, {2} at {3}:%.2d: %s survived: %s and killed: %d  \n".format(all_months[t[1]-1], t[2], t[0], t[3]) %(t[4], bug.username, current_time.text, bug.killed))
 			f.close()
 			written = 1
 
@@ -164,7 +164,7 @@ def collisions( bug, SCREENHEIGHT, SCREENWIDTH, totalFrames, FPS, current_time):
 				enemy.health -= enemy.half_health #HEALTH EXTRACT#
 				
 				projectile.velx = 0
-				if(enemy.health <= 0):
+				if(enemy.health <= 0): #check if dead #
 					Classes.Bug.killed += 1
 
 			else: # enemy is being frozen 
