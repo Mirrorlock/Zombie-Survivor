@@ -6,7 +6,7 @@ class BaseClass(pygame.sprite.Sprite):
 	
 	allsprites = pygame.sprite.Group()
 	music_need = 1
-	
+	ASDFSADFSADFSADFASDF
 	
 	def __init__(self, x, y, image_string):
 			
