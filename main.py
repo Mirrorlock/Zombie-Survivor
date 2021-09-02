@@ -12,7 +12,6 @@ music = pygame.mixer
 SCREENWIDTH, SCREENHEIGHT = 640, 360
 
 screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT), pygame.FULLSCREEN,32)
-ADASDFSADFASDFSADFASDFASFD
 width_health, height_health = 200, 30
 
 
